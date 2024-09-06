@@ -1,52 +1,67 @@
 import { useState, useEffect } from "react"
 import { Modal, Input, List } from "antd"
-import axios from "axios"
 import WeatherDisplay from "./components/weather-display"
 import { City } from "./types/common-types"
+import { useModal } from "./hooks/use-modal"
+import { useSelectedCity } from "./hooks/use-selected-city"
+import useSWR from "swr"
+import debounce from "lodash/debounce"
+import { fetcher } from "./lib/helpers"
+
+const DEBOUNCE_TIME_ON_KEY_PRESS = import.meta.env.VITE_DEBOUNCE_TIME_ON_KEY_PRESS || 1000
 
 function App() {
-  const [isModalVisible, setIsModalVisible] = useState(false)
+  const { isModalVisible, setIsModalVisible } = useModal()
+  const { selectedCity, setSelectedCity } = useSelectedCity()
   const [searchTerm, setSearchTerm] = useState("")
-  const [cities, setCities] = useState<City[]>([])
-  const [selectedCity, setSelectedCity] = useState<City | null>(null)
+
+  console.log("de", DEBOUNCE_TIME_ON_KEY_PRESS)
 
   useEffect(() => {
-    const storedCity = localStorage.getItem("selectedCity")
-    if (storedCity) {
-      setSelectedCity(JSON.parse(storedCity))
-    } else {
+    if (!selectedCity) {
       setIsModalVisible(true)
     }
-  }, [])
+  }, [selectedCity, setIsModalVisible])
 
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get(
-        `https://geocoding-api.open-meteo.com/v1/search?name=${searchTerm}&count=10&language=en&format=json`
-      )
-      setCities(response.data.results || [])
-    } catch (error) {
-      console.error("Error fetching cities:", error)
-    }
+  const { data, error, isLoading } = useSWR(
+    searchTerm
+      ? `https://geocoding-api.open-meteo.com/v1/search?name=${searchTerm}&count=10&language=en&format=json`
+      : null,
+    fetcher
+  )
+
+  const cities: City[] = data?.results || []
+
+  const handleSearch = () => {
+    setSearchTerm(searchTerm)
   }
 
   const handleCitySelect = (city: City) => {
     setSelectedCity(city)
-    localStorage.setItem("selectedCity", JSON.stringify(city))
     setIsModalVisible(false)
   }
 
-  return (
-    <>
-      <div className="cursor-pointer" onClick={() => setIsModalVisible(true)}>
-        {selectedCity ? selectedCity.name : "Select a city"}
-      </div>
+  if (error) return <div>Error fetching cities</div>
 
-      <Modal title="Search for a city" open={isModalVisible} onCancel={() => setIsModalVisible(false)} footer={null}>
+  return (
+    <div className="container m-auto">
+      <Modal
+        title={selectedCity ? "Search for a city" : "First you need to select a city"}
+        open={isModalVisible}
+        onCancel={() => {
+          if (selectedCity) {
+            setIsModalVisible(false)
+          }
+        }}
+        footer={null}
+      >
         <Input.Search
+          loading={isLoading}
           placeholder="Enter city name"
           onSearch={handleSearch}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={debounce((e) => setSearchTerm(e.target.value), DEBOUNCE_TIME_ON_KEY_PRESS)}
+          size="large"
+          allowClear
           enterButton
         />
         <List
@@ -60,7 +75,7 @@ function App() {
         />
       </Modal>
       {selectedCity && <WeatherDisplay latitude={selectedCity.latitude} longitude={selectedCity.longitude} />}
-    </>
+    </div>
   )
 }
 

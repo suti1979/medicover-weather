@@ -13,3 +13,5 @@ export const getWeatherStatus = (code: number) => {
 export const getDayName = (dateString: string) => {
   return new Date(dateString).toLocaleDateString("hu-EN", { weekday: "long" })
 }
+
+export const fetcher = (url: string) => fetch(url).then((res) => res.json())
