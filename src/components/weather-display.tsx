@@ -19,25 +19,41 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ latitude, longitude }) 
   if (!weatherData) return <div>Loading...</div>
 
   return (
-    <>
-      <div className="cursor-pointer" onClick={() => setIsModalVisible(true)}>
-        {selectedCity ? selectedCity.name : "Select a city"}
-      </div>
-      <p>Temperature: {weatherData.current.temperature_2m}°C</p>
-      <p>Status: {getWeatherStatus(weatherData.current.weather_code).text}</p>
-
-      {weatherData.daily.time.map((day, index) => (
-        <div key={index}>
-          <p>{getDayName(day)}</p>
-          <WeatherIcon iconCode={getWeatherStatus(weatherData.daily.weather_code[index]).icon} />
-          <p>Precipitation: {weatherData.daily.precipitation_probability_max[index]}%</p>
-          <p>{weatherData.daily.temperature_2m_min[index]}°C</p>
-          <p>{weatherData.daily.temperature_2m_max[index]}°C</p>
+    <div className="grid lg:grid-cols-[1fr_2fr] gap-8 p-4 lg:p-8">
+      <div className="flex flex-col justify-between">
+        <div>
+          <p className="cursor-pointer text-[12px]" onClick={() => setIsModalVisible(true)}>
+            {selectedCity ? selectedCity.name : "Select a city"}
+          </p>
+          <p className="text-[48px]">{weatherData.current.temperature_2m} °C</p>
+          <p>{getWeatherStatus(weatherData.current.weather_code).text}</p>
         </div>
-      ))}
 
-      <Chart weather={weatherData} />
-    </>
+        <p className="cursor-pointer text-[12px] hidden lg:block">Zöld András</p>
+      </div>
+      <div>
+        <p className="cursor-pointer text-[12px]">{weatherData.daily.time.length} napos előrejelzés</p>
+        {weatherData.daily.time.map((day, index) => (
+          <div key={index} className="grid  grid-cols-[3fr_2fr_5fr] lg:grid-cols-3 text-[16px] lg:text-[20px] my-4">
+            <p>{getDayName(day)}</p>
+
+            <p className="flex justify-center items-center gap-1 lg:gap-2">
+              <WeatherIcon iconCode={getWeatherStatus(weatherData.daily.weather_code[index]).icon} />
+
+              <span className="">{weatherData.daily.precipitation_probability_max[index]} %</span>
+            </p>
+            <p className="text-right space-x-1 lg:space-x-2">
+              <span>{weatherData.daily.temperature_2m_min[index]} °C</span>
+              <span>/</span>
+              <span>{weatherData.daily.temperature_2m_max[index]} °C</span>
+            </p>
+          </div>
+        ))}
+
+        <Chart weather={weatherData} />
+        <p className="cursor-pointer text-[12px] block lg:hidden text-center mt-5">Zöld András</p>
+      </div>
+    </div>
   )
 }
 

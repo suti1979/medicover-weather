@@ -30,10 +30,6 @@ function App() {
 
   const cities: City[] = data?.results || []
 
-  const handleSearch = () => {
-    setSearchTerm(searchTerm)
-  }
-
   const handleCitySelect = (city: City) => {
     setSelectedCity(city)
     setIsModalVisible(false)
@@ -42,7 +38,7 @@ function App() {
   if (error) return <div>Error fetching cities</div>
 
   return (
-    <div className="container m-auto">
+    <div className="container m-auto lg:flex justify-center items-center h-screen">
       <Modal
         title={selectedCity ? "Search for a city" : "First you need to select a city"}
         open={isModalVisible}
@@ -56,7 +52,7 @@ function App() {
         <Input.Search
           loading={isLoading}
           placeholder="Enter city name"
-          onSearch={handleSearch}
+          onSearch={() => setSearchTerm(searchTerm)}
           onChange={debounce((e) => setSearchTerm(e.target.value), DEBOUNCE_TIME_ON_KEY_PRESS)}
           size="large"
           allowClear

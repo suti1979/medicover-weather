@@ -20,7 +20,7 @@ export const Chart: React.FC<ChartProps> = ({ weather }) => {
   ]
 
   return (
-    <div className="">
+    <div className="border border-white rounded-[25px] mt-5">
       <LineChart
         series={series}
         height={300}

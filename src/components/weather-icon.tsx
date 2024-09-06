@@ -3,26 +3,26 @@ interface WeatherIconProps {
 }
 
 const WeatherIcon: React.FC<WeatherIconProps> = ({ iconCode }) => {
-  const getIcon = (code: number): string => {
+  const getIcon = (code: number): JSX.Element => {
     switch (code) {
       case 0:
-        return "☀️"
+        return <i className="wi wi-day-sunny" />
       case 1:
-        return "⛅"
+        return <i className="wi wi-day-cloudy " />
       case 2:
-        return "🌫️"
+        return <i className="wi wi-day-fog" />
       case 3:
-        return "🌧️"
+        return <i className="wi wi-day-rain" />
       case 4:
-        return "❄️"
+        return <i className="wi wi-day-snow" />
       case 5:
-        return "🌦️"
+        return <i className="wi wi-day-rain-mix" />
       case 6:
-        return "🌨️"
+        return <i className="wi wi-day-snow-wind" />
       case 7:
-        return "⚡"
+        return <i className="wi wi-day-lightning" />
       default:
-        return "❓"
+        return <i className="wi wi-na" />
     }
   }
 

@@ -11,6 +11,7 @@ body {
 
 body {
   background: linear-gradient(0deg, #96d1fa 0%, #6bb4e8 100%) fixed;
+  color: white;
 }
 
 #root {
