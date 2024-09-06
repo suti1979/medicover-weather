@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
 body {
-  background: linear-gradient(0deg, #96d1fa 0%, #6bb4e8 100%);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+body {
+  background: linear-gradient(0deg, #96d1fa 0%, #6bb4e8 100%) fixed;
+}
+
+#root {
+  min-height: 100vh;
 }

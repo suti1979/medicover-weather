@@ -15,8 +15,6 @@ function App() {
   const { selectedCity, setSelectedCity } = useSelectedCity()
   const [searchTerm, setSearchTerm] = useState("")
 
-  console.log("de", DEBOUNCE_TIME_ON_KEY_PRESS)
-
   useEffect(() => {
     if (!selectedCity) {
       setIsModalVisible(true)
