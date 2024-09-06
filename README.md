@@ -5,7 +5,7 @@ This project is a weather application built with React and TypeScript. It allows
 ### Features
 
 - Search for weather by city name
-- Store the selected city in localStorage
+- Store the selected city in localStorage by zustand presist
 - Display current weather conditions
 - Display a 7-day forecast
 
