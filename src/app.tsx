@@ -38,7 +38,7 @@ function App() {
   if (error) return <div>Error fetching cities</div>
 
   return (
-    <div className="container m-auto lg:flex justify-center items-center h-screen">
+    <div className="container m-auto lg:flex flex-col justify-center items-center h-screen">
       <Modal
         title={selectedCity ? "Search for a city" : "First you need to select a city"}
         open={isModalVisible}
