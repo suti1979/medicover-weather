@@ -2,10 +2,14 @@
 
 This project is a weather application built with React and TypeScript. It allows users to search for weather information by city name and displays the current weather conditions along with a 7-day forecast.
 
+### Live Demo
+
+You can view a live demo of the application at [medicover-weather.vercel.app](https://medicover-weather.vercel.app).
+
 ### Features
 
 - Search for weather by city name
-- Store the selected city in localStorage by zustand presist
+- Store the selected city in localStorage
 - Display current weather conditions
 - Display a 7-day forecast
 
@@ -15,6 +19,7 @@ This project is a weather application built with React and TypeScript. It allows
 - TypeScript
 - Ant Design
 - Open-Meteo API
+- Zustand presist
 
 ### Installation
 

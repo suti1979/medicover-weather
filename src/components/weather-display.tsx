@@ -34,7 +34,7 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ latitude, longitude }) 
         <div id="right-side-detailed-infos">
           <p className="cursor-pointer text-[12px]">{weatherData.daily.time.length} napos előrejelzés</p>
           {weatherData.daily.time.map((day, index) => (
-            <div key={index} className="grid  grid-cols-[1fr_1fr_2fr] md:grid-cols-3 text-[16px] lg:text-[20px] my-4">
+            <div key={index} className="grid  grid-cols-[1fr_1fr_2fr] sm:grid-cols-3 text-[16px] lg:text-[20px] my-4">
               <p id="week-day">{getDayName(day)}</p>
               <div id="icons-and-precipitation" className="flex justify-center">
                 <p className="flex justify-between gap-1 lg:gap-2 w-[70px] lg:w-[90px]">
